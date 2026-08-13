@@ -9,18 +9,33 @@
 <body>
     <!-- Custom Notification Toast -->
     <div id="toastNotification" class="toast">
-        <span class="toast-icon">🎵</span>
+        <span class="toast-icon">⚙️</span>
         <div class="toast-content">
-            <div class="toast-title">MUSIC UPDATED</div>
-            <div class="toast-message" id="toastMessage">Song changed successfully.</div>
+            <div class="toast-title">SCOREBOARD</div>
+            <div class="toast-message" id="toastMessage">Done.</div>
         </div>
     </div>
 
     <div class="ambient-glow glow-left"></div>
     <div class="ambient-glow glow-right"></div>
-    
+
     <div class="decorations">
         <div class="grid-line grid-v"></div>
+    </div>
+
+    <!-- Top-right actions: History + Settings -->
+    <div class="top-fab-group">
+        <button type="button" class="settings-fab" id="historyOpenBtn" onclick="openHistory()" title="히스토리">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                <path d="M13 3a9 9 0 1 0 8.95 10h-2.02A7 7 0 1 1 13 5V3zm1 5h-2v5.59l4.29 4.3 1.42-1.42L14 12.41V8z"/>
+            </svg>
+            <span class="fab-badge" id="historyFabBadge" hidden>0</span>
+        </button>
+        <button type="button" class="settings-fab" id="settingsOpenBtn" onclick="openSettings()" title="설정">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                <path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.2 7.2 0 0 0-1.62-.94l-.36-2.54A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.55-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.64 8.48a.49.49 0 0 0 .12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.76 14.5a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.3.59.22l2.39-.96c.5.39 1.03.7 1.62.94l.36 2.54c.05.24.25.42.49.42h4c.24 0 .44-.18.49-.42l.36-2.54c.59-.24 1.13-.55 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
+            </svg>
+        </button>
     </div>
 
     <!-- 🎵 Now Playing Widget -->
@@ -47,21 +62,19 @@
                 <h2 class="player-name" id="nameA" contenteditable="true" spellcheck="false" placeholder="이름 입력해주세요..." onblur="saveName('A')" onkeydown="handleNameKey(event, 'A')">이름 입력해주세요...</h2>
                 <span class="edit-hint">✏️</span>
             </div>
-            
+
             <div class="wins-row">
                 <div class="wins-badge" id="winsAContainer">
                     <span class="trophy-emoji">🏆</span>
                     <span id="winsA">0</span>
                 </div>
-                <button class="change-song-btn-card" onclick="triggerFilePicker('A')" title="Change Victory Song">🎵 SONG</button>
             </div>
-            
+
             <div class="score-container">
                 <div class="score-display" id="scoreA">0</div>
             </div>
-            
+
             <div class="controls-section">
-                <!-- Score Group -->
                 <div class="control-group">
                     <span class="control-label">SCORE</span>
                     <div class="btn-pair">
@@ -69,7 +82,6 @@
                         <button class="btn btn-secondary" onclick="decreaseScore('A')" title="Decrease Score">😭 -1</button>
                     </div>
                 </div>
-                <!-- Wins Group -->
                 <div class="control-group">
                     <span class="control-label">WINS</span>
                     <div class="btn-pair">
@@ -84,6 +96,7 @@
         <div class="center-controls">
             <button class="reset-btn" onclick="resetScores()">RESET</button>
             <input type="file" id="audioFilePicker" accept="audio/*" style="display: none;" onchange="handleAudioUpload(event)">
+            <input type="file" id="historyImportPicker" accept="application/json,.json" style="display: none;" onchange="handleHistoryImport(event)">
         </div>
 
         <!-- Team B (Right) -->
@@ -92,21 +105,19 @@
                 <h2 class="player-name" id="nameB" contenteditable="true" spellcheck="false" placeholder="이름 입력해주세요..." onblur="saveName('B')" onkeydown="handleNameKey(event, 'B')">이름 입력해주세요...</h2>
                 <span class="edit-hint">✏️</span>
             </div>
-            
+
             <div class="wins-row">
                 <div class="wins-badge" id="winsBContainer">
                     <span class="trophy-emoji">🏆</span>
                     <span id="winsB">0</span>
                 </div>
-                <button class="change-song-btn-card" onclick="triggerFilePicker('B')" title="Change Victory Song">🎵 SONG</button>
             </div>
-            
+
             <div class="score-container">
                 <div class="score-display" id="scoreB">0</div>
             </div>
-            
+
             <div class="controls-section">
-                <!-- Score Group -->
                 <div class="control-group">
                     <span class="control-label">SCORE</span>
                     <div class="btn-pair">
@@ -114,7 +125,6 @@
                         <button class="btn btn-secondary" onclick="decreaseScore('B')" title="Decrease Score">😭 -1</button>
                     </div>
                 </div>
-                <!-- Wins Group -->
                 <div class="control-group">
                     <span class="control-label">WINS</span>
                     <div class="btn-pair">
@@ -122,6 +132,103 @@
                         <button class="btn btn-win-secondary" onclick="decreaseWins('B')" title="Decrease Wins">🏆 -1</button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="onSettingsOverlayClick(event)">
+        <div class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" onclick="event.stopPropagation()">
+            <div class="settings-header">
+                <h2 id="settingsTitle">SETTINGS</h2>
+                <button type="button" class="settings-close" onclick="closeSettings()" title="닫기">✕</button>
+            </div>
+
+            <div class="settings-body settings-body-single">
+                <section class="settings-section">
+                    <h3 class="settings-section-title">GAME</h3>
+                    <label class="settings-check">
+                        <input type="checkbox" id="optResetScoreOnWin" onchange="saveSettingsFromUi()">
+                        <span>WINS +1 시 SCORE를 0으로 초기화</span>
+                    </label>
+                    <label class="settings-check">
+                        <input type="checkbox" id="optResetWinsOnReset" onchange="saveSettingsFromUi()">
+                        <span>RESET 시 WINS도 0으로 초기화</span>
+                    </label>
+                </section>
+
+                <section class="settings-section">
+                    <h3 class="settings-section-title">VICTORY SONG</h3>
+                    <div class="song-row">
+                        <div class="song-meta">
+                            <span class="song-team team-a-tag">TEAM A</span>
+                            <span class="song-name" id="songTitleA">VICTORY</span>
+                        </div>
+                        <div class="song-actions">
+                            <button type="button" class="settings-btn" onclick="triggerFilePicker('A')">🎵 변경</button>
+                            <button type="button" class="settings-btn ghost" onclick="resetVictorySong('A')">기본</button>
+                        </div>
+                    </div>
+                    <div class="song-row">
+                        <div class="song-meta">
+                            <span class="song-team team-b-tag">TEAM B</span>
+                            <span class="song-name" id="songTitleB">VICTORY</span>
+                        </div>
+                        <div class="song-actions">
+                            <button type="button" class="settings-btn" onclick="triggerFilePicker('B')">🎵 변경</button>
+                            <button type="button" class="settings-btn ghost" onclick="resetVictorySong('B')">기본</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="settings-overlay" id="historyOverlay" onclick="onHistoryOverlayClick(event)">
+        <div class="history-panel" role="dialog" aria-modal="true" aria-labelledby="historyTitle" onclick="event.stopPropagation()">
+            <div class="settings-header">
+                <div class="history-header-left">
+                    <h2 id="historyTitle">HISTORY</h2>
+                    <span class="history-count" id="historyCount">0</span>
+                </div>
+                <button type="button" class="settings-close" onclick="closeHistory()" title="닫기">✕</button>
+            </div>
+            <div class="history-panel-body">
+                <p class="settings-hint">브라우저에 저장됩니다. <code>history.json</code>으로 백업·불러오기 할 수 있습니다.</p>
+                <div class="history-toolbar">
+                    <button type="button" class="settings-btn" onclick="exportHistoryJson()">⬇ JSON</button>
+                    <button type="button" class="settings-btn ghost" onclick="triggerHistoryImport()">⬆ 불러오기</button>
+                    <button type="button" class="settings-btn danger" onclick="clearHistory()">Clear</button>
+                </div>
+                <div class="history-series-banner" id="historySeriesBanner" title="현재 세트 스코어">
+                    <span class="hsb-label">SET</span>
+                    <div class="hsb-score">
+                        <span class="hsb-side a">
+                            <em>A</em>
+                            <b id="historySetA">0</b>
+                        </span>
+                        <i class="hsb-colon">:</i>
+                        <span class="hsb-side b">
+                            <b id="historySetB">0</b>
+                            <em>B</em>
+                        </span>
+                    </div>
+                </div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirm Dialog -->
+    <div class="confirm-overlay" id="confirmOverlay" onclick="onConfirmOverlayClick(event)">
+        <div class="confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage" onclick="event.stopPropagation()">
+            <div class="confirm-icon">🗑️</div>
+            <h3 class="confirm-title" id="confirmTitle">CLEAR HISTORY</h3>
+            <p class="confirm-message" id="confirmMessage">승리 히스토리를 모두 삭제할까요?</p>
+            <div class="confirm-actions">
+                <button type="button" class="settings-btn danger" id="confirmOkBtn" onclick="resolveConfirm(true)">삭제</button>
+                <button type="button" class="settings-btn ghost" id="confirmCancelBtn" onclick="resolveConfirm(false)">취소</button>
             </div>
         </div>
     </div>
